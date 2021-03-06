@@ -66,6 +66,9 @@ extension SearchResultsViewController: UITableViewDataSource {
 }
 
 extension SearchResultsViewController: UITableViewDelegate {
-    
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailStoryboard = UIStoryboard.init(name: "Detail", bundle: nil)
+        guard let detailVC = detailStoryboard.instantiateViewController(withIdentifier: "detailViewController") as? DetailViewController else { return }
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
