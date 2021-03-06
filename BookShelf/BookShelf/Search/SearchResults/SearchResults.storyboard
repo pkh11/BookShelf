@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Search Results View Controller-->
+        <scene sceneID="ARj-dn-IHP">
+            <objects>
+                <viewController storyboardIdentifier="searchResultsViewController" id="abv-8x-WMI" customClass="SearchResultsViewController" customModule="BookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="esp-ZY-R03">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="e7y-9w-KXc">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="bookTableViewCell" rowHeight="80" id="wwn-LK-V3D" customClass="BooksTableViewCell" customModule="BookShelf" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wwn-LK-V3D" id="aw5-6y-HDe">
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="59l-DS-x5H">
+                                                    <rect key="frame" x="5" y="5" width="373" height="70"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Hl-zh-rW0">
+                                                            <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                        </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hV5-O9-jb0" userLabel="EmptySpaceView">
+                                                            <rect key="frame" x="70" y="0.0" width="10" height="70"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="10" id="lSJ-oX-ePU"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZNp-h9-G7q">
+                                                            <rect key="frame" x="80" y="0.0" width="293" height="70"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Practical MongoDB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jr5-C3-IBl" userLabel="title">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="293" height="23.5"/>
+                                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Architecting, Developing, and Administering MongoDB" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oig-Bw-dmO" userLabel="subtitle">
+                                                                    <rect key="frame" x="0.0" y="23.5" width="293" height="23"/>
+                                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
+                                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$32.04" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h6H-G6-k68" userLabel="price">
+                                                                    <rect key="frame" x="0.0" y="46.5" width="293" height="23.5"/>
+                                                                    <fontDescription key="fontDescription" name="AppleSDGothicNeo-Regular" family="Apple SD Gothic Neo" pointSize="17"/>
+                                                                    <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="oig-Bw-dmO" firstAttribute="height" secondItem="Jr5-C3-IBl" secondAttribute="height" id="73C-AL-o65"/>
+                                                                <constraint firstItem="h6H-G6-k68" firstAttribute="height" secondItem="Jr5-C3-IBl" secondAttribute="height" id="wJo-wJ-CCK"/>
+                                                            </constraints>
+                                                        </stackView>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="4Hl-zh-rW0" firstAttribute="width" secondItem="59l-DS-x5H" secondAttribute="height" multiplier="1:1" id="FKL-YJ-PAI"/>
+                                                    </constraints>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="59l-DS-x5H" secondAttribute="bottom" constant="5" id="515-V2-9Cg"/>
+                                                <constraint firstItem="59l-DS-x5H" firstAttribute="leading" secondItem="aw5-6y-HDe" secondAttribute="leading" constant="5" id="5kN-Xf-0Bc"/>
+                                                <constraint firstAttribute="trailing" secondItem="59l-DS-x5H" secondAttribute="trailing" constant="5" id="IhR-6a-xDW"/>
+                                                <constraint firstItem="59l-DS-x5H" firstAttribute="top" secondItem="aw5-6y-HDe" secondAttribute="top" constant="5" id="Uym-AJ-kye"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="bookImage" destination="4Hl-zh-rW0" id="bP1-xg-Vtt"/>
+                                            <outlet property="bookPrice" destination="h6H-G6-k68" id="KeC-wY-Noo"/>
+                                            <outlet property="bookSubTitle" destination="oig-Bw-dmO" id="hv4-JC-7Um"/>
+                                            <outlet property="bookTitle" destination="Jr5-C3-IBl" id="H5I-kV-jtd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="RKV-Le-6tJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="e7y-9w-KXc" firstAttribute="top" secondItem="RKV-Le-6tJ" secondAttribute="top" id="CMa-Xb-LOZ"/>
+                            <constraint firstItem="RKV-Le-6tJ" firstAttribute="bottom" secondItem="e7y-9w-KXc" secondAttribute="bottom" id="i2i-El-hjC"/>
+                            <constraint firstItem="e7y-9w-KXc" firstAttribute="leading" secondItem="RKV-Le-6tJ" secondAttribute="leading" id="kzw-7B-FYz"/>
+                            <constraint firstItem="RKV-Le-6tJ" firstAttribute="trailing" secondItem="e7y-9w-KXc" secondAttribute="trailing" id="yJt-KZ-Vnh"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchResultsTableView" destination="e7y-9w-KXc" id="Tbr-dZ-v2f"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s3k-he-bfF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="118" y="118"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
