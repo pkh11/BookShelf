@@ -12,6 +12,7 @@ class SearchManager {
     static let sharedInstance = SearchManager()
     var keywords: [Keyword] = []
     var books: [Book] = []
+    var book: Detail?
     
     let networkManager = NetworkManager.sharedInstance
     
@@ -65,8 +66,12 @@ class SearchManager {
         }
     }
     
-    func fetchDetailOfBook() {
-        
+    func fetchDetailOfBook(_ isbn: String, completion: @escaping ((Detail)->Void)) {
+        networkManager.getBook(isbn) { data in
+            guard let data = data else { return }
+            self.book = data
+            completion(data)
+        }
     }
 }
 
@@ -74,31 +79,29 @@ struct Keyword: Hashable {
     var query: String
 }
 
-class Searh: Codable {
+struct Searh: Codable {
     var total: String
     var page: String
     var books: [Book]
 }
 
-class Book: Codable {
+struct Book: Codable {
     var title: String
     var subtitle: String
     var isbn13: String
     var price: String
     var image: String
     var url: String
-    
-    init(_ title: String, _ subtitle: String, _ isbn13: String, _ price: String, _ image: String, _ url: String) {
-        self.title = title
-        self.subtitle = subtitle
-        self.isbn13 = isbn13
-        self.price = price
-        self.image = image
-        self.url = url
-    }
 }
 
-class Detail: Book {
+struct Detail: Codable {
+    var error: String
+    var title: String
+    var subtitle: String
+    var isbn13: String
+    var price: String
+    var image: String
+    var url: String
     var authors: String
     var publisher: String
     var isbn10: String
@@ -106,31 +109,6 @@ class Detail: Book {
     var year: String
     var rating: String
     var desc: String
-    var pdf: String
-    
-   
-    init(_ authors: String, _ publisher: String,
-         _ isbn10: String, _ pages: String,
-         _ year: String, _ rating: String,
-         _ desc: String, _ pdf: String,
-         _ title: String, _ subtitle: String,
-         _ isbn13: String, _ price: String,
-         _ image: String, _ url: String) {
-
-        self.authors = authors
-        self.publisher = publisher
-        self.isbn10 = isbn10
-        self.pages = pages
-        self.year = year
-        self.rating = rating
-        self.desc = desc
-        self.pdf = pdf
-        super.init(title, subtitle, isbn13, price, image, url)
-    }
-    
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
-    }
-    
+    var pdf: String?
 }
 

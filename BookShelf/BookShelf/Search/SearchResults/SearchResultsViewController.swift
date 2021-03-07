@@ -69,6 +69,7 @@ extension SearchResultsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailStoryboard = UIStoryboard.init(name: "Detail", bundle: nil)
         guard let detailVC = detailStoryboard.instantiateViewController(withIdentifier: "detailViewController") as? DetailViewController else { return }
+        detailVC.isbn13 = searchManager.books[indexPath.row].isbn13
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }

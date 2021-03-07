@@ -10,8 +10,51 @@ import UIKit
 class DetailViewController: UIViewController {
     
     @IBOutlet weak var detailTableView: UITableView!
+    
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = UIActivityIndicatorView.Style.gray
+        activityIndicator.stopAnimating()
+        
+        return activityIndicator
+    }()
+    
+    var searchManager = SearchManager.sharedInstance
+    var isbn13: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        detailTableView.dataSource = self
+        detailTableView.delegate = self
+        detailTableView.rowHeight = UITableView.automaticDimension
+        self.view.addSubview(self.activityIndicator)
+        
+        fetchDetailOfBook(isbn13)
+    }
+    
+    func fetchDetailOfBook(_ isbn13: String) {
+        activityIndicator.startAnimating()
+        searchManager.fetchDetailOfBook(isbn13) { data in
+            DispatchQueue.main.async {
+                self.detailTableView.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    @IBAction func share(_ sender: Any) {
+        
+    }
+    @IBAction func openBookLink(_ sender: Any) {
+        if let book = searchManager.book,
+           let url = URL(string: book.url) {
+            UIApplication.shared.openURL(url)
+        }
     }
 }
 
@@ -21,36 +64,49 @@ extension DetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let item = searchManager.book
         let section = indexPath.section
+        
         if section == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "titleCell") as? TitleCell else {
+            guard let titleCell = tableView.dequeueReusableCell(withIdentifier: "titleCell") as? TitleCell else {
                 return UITableViewCell()
             }
-            cell.updateUI()
-            return cell
+            titleCell.updateUI(detail: item)
+            return titleCell
         }
         if section == 1 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "publishCell") as? PublishCell else {
+            guard let publishCell = tableView.dequeueReusableCell(withIdentifier: "publishCell") as? PublishCell else {
                 return UITableViewCell()
             }
-            cell.updateUI()
-            return cell
+            publishCell.updateUI(detail: item)
+            return publishCell
         }
         if section == 2 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "descriptionCell") as? DescriptionCell else {
+            guard let descriptionCell = tableView.dequeueReusableCell(withIdentifier: "descriptionCell") as? DescriptionCell else {
                 return UITableViewCell()
             }
-            cell.updateUI()
-            return cell
+            descriptionCell.updateUI(detail: item)
+            return descriptionCell
         }
-        return tableView.cellForRow(at: indexPath)!
+        return tableView.cellForRow(at: indexPath) ?? UITableViewCell()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 2 {
+            return 200
+        } else {
+            return tableView.estimatedRowHeight
+        }
+    }
+    
 }
 
-extension DetailViewController: UITableViewDelegate {
-    
+extension DetailViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
 }

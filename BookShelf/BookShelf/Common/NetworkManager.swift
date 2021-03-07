@@ -35,16 +35,19 @@ class NetworkManager {
         }.resume()
     }
     
-    func getBook(_ query: String) {
-        guard let url = URL(string: "\(api.DETAIL)/")  else { return }
-        let request = URLRequest(url: url)
+    func getBook(_ isbn13: String, completion: @escaping (Detail?) -> Void) {
+        guard let url = URL(string: "\(api.DETAIL)/\(isbn13)")  else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
         
         session.dataTask(with: request) { (data, response, error) in
-            if let reponseData = response as? HTTPURLResponse {
+            if let data = data,
+                let reponseData = response as? HTTPURLResponse {
                 if reponseData.statusCode == 200 {
-                    
-
-                    
+                    let decoder = JSONDecoder()
+                    if let jsonData = try? decoder.decode(Detail.self, from: data) {
+                        completion(jsonData)
+                    }
                 } else {
                     print("Status Code is not 200")
                 }

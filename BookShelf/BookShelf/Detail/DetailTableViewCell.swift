@@ -18,8 +18,11 @@ class TitleCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func updateUI() {
-        
+    func updateUI(detail: Detail?) {
+        bookImage.setImageURL(detail?.image)
+        bookTitle.text = detail?.title
+        bookAuthor.text = detail?.authors
+        bookPrice.text = detail?.price
     }
 }
 
@@ -31,8 +34,8 @@ class PublishCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func updateUI() {
-        
+    func updateUI(detail: Detail?) {
+        bookPublisher.text = detail?.publisher
     }
 }
 
@@ -44,7 +47,7 @@ class DescriptionCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func updateUI() {
-        
+    func updateUI(detail: Detail?) {
+        bookDescription.text = detail?.desc
     }
 }
