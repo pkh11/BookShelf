@@ -11,16 +11,8 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    
-    //    var searchController : UISearchController = {
-    //        let searchController = UISearchController()
-    //        searchController.searchBar.placeholder = "키워드 검색"
-    //        searchController.hidesNavigationBarDuringPresentation = false
-    //        searchController.dimsBackgroundDuringPresentation = false
-    //        return searchController
-    //    }()
-    
     @IBOutlet var searchBar: UISearchBar!
+    
     let searchManager = SearchManager.sharedInstance
     var resultsView: SearchResultsViewController!
     var filteredKeywords = [Keyword]()
@@ -30,15 +22,10 @@ class SearchViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.keyboardDismissMode = .onDrag
         
-        // searchController 사용
-        //        searchController.searchResultsUpdater = self
-        //        searchController.searchBar.delegate = self
-        //        self.navigationItem.titleView = searchController.searchBar
-        
-        // searchBar 사용
         searchBar.delegate = self
-        searchBar.showsCancelButton = true
+        searchBar.showsCancelButton = false
         self.navigationItem.titleView = searchBar
         
     }
@@ -95,7 +82,6 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("cancel")
         if let resultViewController = resultsView {
             resultViewController.view.removeFromSuperview()
             resultViewController.removeFromParent()
@@ -171,7 +157,6 @@ extension SearchViewController: UITableViewDelegate {
         }
         
         searchBar.text = text
-        //        searchController.searchBar.text = text
         moveToResultViewController(text)
         searchManager.setKeyword(text)
     }

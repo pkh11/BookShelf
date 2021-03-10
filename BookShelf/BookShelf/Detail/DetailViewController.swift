@@ -77,6 +77,7 @@ extension DetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             titleCell.updateUI(detail: item)
+            titleCell.selectionStyle = .none
             return titleCell
         }
         if section == 1 {
@@ -84,6 +85,7 @@ extension DetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             publishCell.updateUI(detail: item)
+            publishCell.selectionStyle = .none
             return publishCell
         }
         if section == 2 {
@@ -91,13 +93,21 @@ extension DetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             descriptionCell.updateUI(detail: item)
+            descriptionCell.selectionStyle = .none
             return descriptionCell
+        }
+        if section == 3 {
+            guard let memoCell = tableView.dequeueReusableCell(withIdentifier: "memoCell") as? MemoCell else {
+                return UITableViewCell()
+            }
+            memoCell.selectionStyle = .none
+            return memoCell
         }
         return tableView.cellForRow(at: indexPath) ?? UITableViewCell()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -111,6 +121,14 @@ extension DetailViewController: UITableViewDataSource {
 }
 
 extension DetailViewController : UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 3 {
+            let memoStoryboard = UIStoryboard.init(name: "Memo", bundle: nil)
+            guard let memoVC = memoStoryboard.instantiateViewController(withIdentifier: "memoViewController") as? MemoViewController else { return }
+            memoVC.isbn13 = isbn13
+            self.navigationController?.pushViewController(memoVC, animated: true)
+        }
+    }
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

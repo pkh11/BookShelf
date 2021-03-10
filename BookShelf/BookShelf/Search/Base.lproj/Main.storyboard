@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Search View Controller-->
+        <!--검색-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="BookShelf" customModuleProvider="target" sceneMemberID="viewController">
@@ -85,7 +85,7 @@
                             <constraint firstItem="ZPl-46-i5D" firstAttribute="top" secondItem="w7h-FV-RaE" secondAttribute="top" id="uIX-XR-ghv"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="wOH-SY-sJz"/>
+                    <navigationItem key="navigationItem" title="검색" id="wOH-SY-sJz"/>
                     <connections>
                         <outlet property="headerView" destination="fWc-wB-G4t" id="FKy-uk-Vqf"/>
                         <outlet property="searchBar" destination="8hL-jH-UjT" id="HmJ-L3-zhs"/>

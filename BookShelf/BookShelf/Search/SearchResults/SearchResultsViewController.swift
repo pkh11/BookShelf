@@ -31,6 +31,7 @@ class SearchResultsViewController: UIViewController {
         
         searchResultsTableView.dataSource = self
         searchResultsTableView.delegate = self
+        searchResultsTableView.keyboardDismissMode = .onDrag
         
         self.view.addSubview(self.activityIndicator)
         
@@ -60,6 +61,7 @@ extension SearchResultsViewController: UITableViewDataSource {
         
         let book = searchManager.books[indexPath.row]
         cell.updateUI(item: book)
+        cell.selectionStyle = .none
         
         return cell
     }

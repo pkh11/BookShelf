@@ -52,3 +52,10 @@ class DescriptionCell: UITableViewCell {
         bookDescription.text = detail?.desc
     }
 }
+
+class MemoCell: UITableViewCell {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+}

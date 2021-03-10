@@ -13,6 +13,7 @@ class SearchManager {
     var keywords: [Keyword] = []
     var books: [Book] = []
     var book: Detail?
+    var memo: String = ""
     
     let networkManager = NetworkManager.sharedInstance
     
@@ -70,45 +71,36 @@ class SearchManager {
         networkManager.getBook(isbn) { data in
             guard let data = data else { return }
             self.book = data
+            self.memo = self.fetchMemo(isbn)
             completion(data)
         }
     }
+    
+    func fetchMemo(_ isbn: String) -> String {
+        if let memos = UserDefaults.standard.object(forKey: "memo") as? [String:String] {
+            if let memo = memos[isbn] {
+                return memo
+            }
+        }
+        return ""
+    }
+    
+    func setMemo(_ text: String, _ isbn: String, completion: @escaping (Bool)->Void) {
+        if var memos = UserDefaults.standard.object(forKey: "memo") as? [String:String] {
+            if let _ = memos[isbn] {
+                memos.updateValue(text, forKey: isbn)
+            } else {
+                memos[isbn] = text
+            }
+            UserDefaults.standard.setValue(memos, forKey: "memo")
+            memo = fetchMemo(isbn)
+        } else {
+            let firstMemo: [String:String] = [isbn:text]
+            UserDefaults.standard.setValue(firstMemo, forKey: "memo")
+        }
+        completion(true)
+    }
 }
 
-struct Keyword: Hashable {
-    var query: String
-}
 
-struct Searh: Codable {
-    var total: String
-    var page: String
-    var books: [Book]
-}
-
-struct Book: Codable {
-    var title: String
-    var subtitle: String
-    var isbn13: String
-    var price: String
-    var image: String
-    var url: String
-}
-
-struct Detail: Codable {
-    var error: String
-    var title: String
-    var subtitle: String
-    var isbn13: String
-    var price: String
-    var image: String
-    var url: String
-    var authors: String
-    var publisher: String
-    var isbn10: String
-    var pages: String
-    var year: String
-    var rating: String
-    var desc: String
-    var pdf: String?
-}
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--메모 작성-->
+        <scene sceneID="46p-Uw-4rD">
+            <objects>
+                <viewController storyboardIdentifier="memoViewController" title="메모 작성" id="c9N-TU-omw" customClass="MemoViewController" customModule="BookShelf" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qn3-d5-7Cv">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="w57-ds-gtZ">
+                                <rect key="frame" x="20" y="64" width="374" height="728"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FQa-C2-aZe">
+                                <rect key="frame" x="20" y="812" width="374" height="50"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dRb-nF-i8u"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <state key="normal" title="저장하기"/>
+                                <connections>
+                                    <action selector="saveMemo:" destination="c9N-TU-omw" eventType="touchUpInside" id="96v-0l-xcI"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="SUE-tF-myT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="w57-ds-gtZ" firstAttribute="leading" secondItem="SUE-tF-myT" secondAttribute="leading" constant="20" id="ChM-1A-N0w"/>
+                            <constraint firstItem="FQa-C2-aZe" firstAttribute="top" secondItem="w57-ds-gtZ" secondAttribute="bottom" constant="20" id="PRq-j9-iSe"/>
+                            <constraint firstItem="FQa-C2-aZe" firstAttribute="leading" secondItem="SUE-tF-myT" secondAttribute="leading" constant="20" id="aef-7x-tm3"/>
+                            <constraint firstItem="SUE-tF-myT" firstAttribute="trailing" secondItem="w57-ds-gtZ" secondAttribute="trailing" constant="20" id="cfo-0a-kg5"/>
+                            <constraint firstItem="SUE-tF-myT" firstAttribute="trailing" secondItem="FQa-C2-aZe" secondAttribute="trailing" constant="20" id="h6e-Cz-G3U"/>
+                            <constraint firstItem="w57-ds-gtZ" firstAttribute="top" secondItem="SUE-tF-myT" secondAttribute="top" constant="20" id="z3a-9L-Izc"/>
+                            <constraint firstItem="SUE-tF-myT" firstAttribute="bottom" secondItem="FQa-C2-aZe" secondAttribute="bottom" id="zBb-si-5IB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="memoTextView" destination="w57-ds-gtZ" id="2N5-9T-uwh"/>
+                        <outlet property="saveButton" destination="FQa-C2-aZe" id="aZF-jI-Fda"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Iw-qP-w0O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="191" y="95"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
