@@ -12,16 +12,18 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
-    var searchController : UISearchController = {
-        let searchController = UISearchController()
-        searchController.searchBar.placeholder = "키워드 검색"
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.dimsBackgroundDuringPresentation = false
-        return searchController
-    }()
+    //    var searchController : UISearchController = {
+    //        let searchController = UISearchController()
+    //        searchController.searchBar.placeholder = "키워드 검색"
+    //        searchController.hidesNavigationBarDuringPresentation = false
+    //        searchController.dimsBackgroundDuringPresentation = false
+    //        return searchController
+    //    }()
     
+    @IBOutlet var searchBar: UISearchBar!
     let searchManager = SearchManager.sharedInstance
     var resultsView: SearchResultsViewController!
+    var filteredKeywords = [Keyword]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +31,18 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
-        searchController.searchBar.showsCancelButton = true
+        // searchController 사용
+        //        searchController.searchResultsUpdater = self
+        //        searchController.searchBar.delegate = self
+        //        self.navigationItem.titleView = searchController.searchBar
         
-        self.navigationItem.titleView = searchController.searchBar
+        // searchBar 사용
+        searchBar.delegate = self
+        searchBar.showsCancelButton = true
+        self.navigationItem.titleView = searchBar
+        
     }
+    
     @IBAction func removeKeywords(_ sender: Any) {
         
         let alertAction = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -52,6 +60,7 @@ class SearchViewController: UIViewController {
         self.present(alertAction, animated: true, completion: nil)
     }
 }
+
 extension SearchViewController {
     func moveToResultViewController(_ keyword: String) {
         let storyboard = UIStoryboard(name: "SearchResults", bundle: nil)
@@ -66,26 +75,39 @@ extension SearchViewController {
         self.view.addSubview(resultsView.view)
         resultsView.didMove(toParent: self)
     }
-}
-
-extension SearchViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        if let resultViewController = resultsView {
-            resultViewController.view.removeFromSuperview()
-            resultViewController.removeFromParent()
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
+    func isFiltering() -> Bool {
+        return !(searchBar.text?.isEmpty ?? true)
     }
 }
 
 extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        filteredKeywords = searchManager.keywords.filter({ (keyword) -> Bool in
+            return keyword.query.lowercased().contains((searchBar.text?.lowercased())!)
+        })
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("cancel")
+        if let resultViewController = resultsView {
+            resultViewController.view.removeFromSuperview()
+            resultViewController.removeFromParent()
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        
+        searchBar.text = nil
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let resultViewController = resultsView {
             resultViewController.view.removeFromSuperview()
@@ -96,10 +118,21 @@ extension SearchViewController: UISearchBarDelegate {
             searchManager.setKeyword(keyword)
         }
     }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
 }
 
 extension SearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredKeywords.count
+        }
         return searchManager.keywords.count
     }
     
@@ -109,8 +142,15 @@ extension SearchViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let keyword = searchManager.keyword(at: indexPath.row)
-        cell.updateUI(item: keyword)
+        if isFiltering() {
+            let filteredKeyword = filteredKeywords[indexPath.row]
+            cell.updateUI(item: filteredKeyword)
+        } else {
+            let keyword = searchManager.keyword(at: indexPath.row)
+            cell.updateUI(item: keyword)
+        }
+        
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -119,9 +159,20 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let keywords = searchManager.keyword(at: indexPath.row) {
-            searchController.searchBar.text = keywords.query
+        var text = ""
+        
+        if isFiltering() {
+            let filteredKeyword = filteredKeywords[indexPath.row]
+            text = filteredKeyword.query
+        } else {
+            if let keyword = searchManager.keyword(at: indexPath.row) {
+                text = keyword.query
+            }
         }
         
+        searchBar.text = text
+        //        searchController.searchBar.text = text
+        moveToResultViewController(text)
+        searchManager.setKeyword(text)
     }
 }

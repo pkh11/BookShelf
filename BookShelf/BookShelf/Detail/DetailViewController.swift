@@ -47,9 +47,14 @@ class DetailViewController: UIViewController {
         }
     }
     
-    @IBAction func share(_ sender: Any) {
-        
+    @IBAction func share(_ sender: UIButton) {
+        if let item = searchManager.book?.url {
+            let activityViewController = UIActivityViewController(activityItems: ["\(item)"], applicationActivities: nil)
+            self.dismiss(animated: true, completion: nil)
+            self.present(activityViewController, animated: true, completion: nil)
+        }
     }
+    
     @IBAction func openBookLink(_ sender: Any) {
         if let book = searchManager.book,
            let url = URL(string: book.url) {

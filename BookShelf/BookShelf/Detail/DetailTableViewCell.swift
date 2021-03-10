@@ -42,6 +42,7 @@ class PublishCell: UITableViewCell {
 class DescriptionCell: UITableViewCell {
     
     @IBOutlet weak var bookDescription: UITextView!
+    @IBOutlet weak var linkButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
