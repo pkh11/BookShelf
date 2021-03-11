@@ -29,13 +29,17 @@ class SearchResultsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setDelegate()
+        fetchBooks()
+        
+    }
+    
+    func setDelegate() {
         searchResultsTableView.dataSource = self
         searchResultsTableView.delegate = self
         searchResultsTableView.keyboardDismissMode = .onDrag
-        
+
         self.view.addSubview(self.activityIndicator)
-        
-        fetchBooks()
     }
     
     func fetchBooks() {

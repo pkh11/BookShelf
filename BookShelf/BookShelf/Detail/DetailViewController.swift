@@ -29,12 +29,16 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setDelegate()
+        fetchDetailOfBook(isbn13)
+        
+    }
+    
+    func setDelegate() {
         detailTableView.dataSource = self
         detailTableView.delegate = self
         detailTableView.rowHeight = UITableView.automaticDimension
         self.view.addSubview(self.activityIndicator)
-        
-        fetchDetailOfBook(isbn13)
     }
     
     func fetchDetailOfBook(_ isbn13: String) {
@@ -129,6 +133,7 @@ extension DetailViewController : UITableViewDelegate {
             self.navigationController?.pushViewController(memoVC, animated: true)
         }
     }
+    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

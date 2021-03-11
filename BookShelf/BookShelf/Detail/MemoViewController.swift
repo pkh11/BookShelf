@@ -63,7 +63,9 @@ class MemoViewController: UIViewController {
             searchManager.setMemo(text, isbn13) { result in
                 if result {
                     let alertAction = UIAlertController(title: "저장완료", message: nil, preferredStyle: .alert)
-                    let saveAction = UIAlertAction(title: "확인", style: .default) { _ in }
+                    let saveAction = UIAlertAction(title: "확인", style: .default) { _ in
+                        self.navigationController?.popViewController(animated: true)
+                    }
                     
                     alertAction.addAction(saveAction)
                     

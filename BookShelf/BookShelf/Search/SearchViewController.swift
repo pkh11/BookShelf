@@ -20,6 +20,11 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setDelegate()
+        
+    }
+    
+    func setDelegate() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
@@ -27,7 +32,6 @@ class SearchViewController: UIViewController {
         searchBar.delegate = self
         searchBar.showsCancelButton = false
         self.navigationItem.titleView = searchBar
-        
     }
     
     @IBAction func removeKeywords(_ sender: Any) {
@@ -69,15 +73,16 @@ extension SearchViewController {
 }
 
 extension SearchViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        filteredKeywords = searchManager.keywords.filter({ (keyword) -> Bool in
-            return keyword.query.lowercased().contains((searchBar.text?.lowercased())!)
-        })
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        if let text = searchBar.text {
+            filteredKeywords = searchManager.keywords.filter({ (keyword) -> Bool in
+                return keyword.query.lowercased().contains((text.lowercased()))
+            })
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     

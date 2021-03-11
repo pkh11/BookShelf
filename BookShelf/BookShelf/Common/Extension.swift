@@ -17,7 +17,7 @@ extension UIImageView {
         
         guard let url = url else { return }
         
-        let cacheKey = NSString(string: url) // 캐시에 사용될 Key 값
+        let cacheKey = NSString(string: url)
         
         if let cachedImage = CacheManager.sharedInstance.object(forKey: cacheKey) {
             self.image = cachedImage
