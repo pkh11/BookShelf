@@ -26,6 +26,7 @@ class MemoViewController: UIViewController {
     
     func keyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     func loadMemo() {
@@ -42,9 +43,13 @@ class MemoViewController: UIViewController {
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.size.height
+            
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+            memoTextView.contentInset = contentInset
+            memoTextView.scrollIndicatorInsets = contentInset
+            
             UIView.animate(withDuration: 0.4) {
                 var height: CGFloat = 0
                 if #available(iOS 13.0, *) {
@@ -55,6 +60,15 @@ class MemoViewController: UIViewController {
                 
                 self.saveButton.transform = CGAffineTransform(translationX: 0, y:   -keyboardHeight+height)
             }
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        memoTextView.contentInset = UIEdgeInsets.zero
+        memoTextView.scrollIndicatorInsets = UIEdgeInsets.zero
+        
+        UIView.animate(withDuration: 0.4) {
+            self.saveButton.transform = CGAffineTransform(translationX: 0, y: 0)
         }
     }
     
