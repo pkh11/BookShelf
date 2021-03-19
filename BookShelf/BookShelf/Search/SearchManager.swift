@@ -51,11 +51,12 @@ class SearchManager {
                 recentList[keyword] = Date()
             }
             UserDefaults.standard.set(recentList, forKey: "keywordList")
-            keywords = fetchKeywords()
+            
         } else {
             let dic: [String:Date] = [keyword:Date()]
             UserDefaults.standard.set(dic, forKey: "keywordList")
         }
+        keywords = fetchKeywords()
     }
     
     func fetchBooks(_ query: String, completion: @escaping ([Book])->Void) {
