@@ -11,6 +11,7 @@ class SearchManager {
     
     static let sharedInstance = SearchManager()
     var keywords: [Keyword] = []
+    var search: Searh?
     var books: [Book] = []
     var book: Detail?
     var memo: String = ""
@@ -59,11 +60,12 @@ class SearchManager {
         keywords = fetchKeywords()
     }
     
-    func fetchBooks(_ query: String, completion: @escaping ([Book])->Void) {
-        books = []
-        networkManager.getBookList(query) { data in
+    func fetchBooks(_ query: String, _ page: String, completion: @escaping ([Book])->Void) {
+//        books = []
+        networkManager.getBookList(query, page) { data in
             guard let data = data else { return }
-            self.books = data.books
+            self.search = data
+            self.books += data.books
             completion(self.books)
         }
     }

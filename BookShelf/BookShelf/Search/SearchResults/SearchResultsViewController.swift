@@ -25,12 +25,13 @@ class SearchResultsViewController: UIViewController {
     
     let searchManager = SearchManager.sharedInstance
     var keyword: String = ""
+    var page: String = "1"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setDelegate()
-        fetchBooks()
+        fetchBooks(page)
         
     }
     
@@ -42,12 +43,41 @@ class SearchResultsViewController: UIViewController {
         self.view.addSubview(self.activityIndicator)
     }
     
-    func fetchBooks() {
+    func fetchBooks(_ page: String) {
         activityIndicator.startAnimating()
-        searchManager.fetchBooks(keyword) { books in
+        searchManager.fetchBooks(keyword, page) { books in
             DispatchQueue.main.async {
                 self.searchResultsTableView.reloadData()
                 self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+}
+
+extension SearchResultsViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let height = scrollView.frame.size.height
+        let contentYOffset: CGFloat = scrollView.contentOffset.y
+        let scrollviewHeight: CGFloat = scrollView.contentSize.height
+        let distanceFromBottom: CGFloat = scrollviewHeight - height
+        
+        print("//////////////////")
+        print("height: \(height)")
+        print("contentYOffset: \(contentYOffset)")
+        print("scrollviewHeight: \(scrollviewHeight)")
+        print("distanceFromBottom: \(distanceFromBottom)")
+        
+        if contentYOffset > distanceFromBottom {
+            if let search = searchManager.search {
+                let total = Int(search.total)!
+                let currentPage = Int(page)!
+                let lastPage = total / 10 + 1
+                
+                if currentPage <= lastPage {
+                    let next: Int = currentPage + 1
+                    page = String(next)
+                    self.fetchBooks(self.page)
+                }
             }
         }
     }

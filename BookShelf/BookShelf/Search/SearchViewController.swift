@@ -91,7 +91,6 @@ extension SearchViewController: UISearchBarDelegate {
             resultViewController.view.removeFromSuperview()
             resultViewController.removeFromParent()
         }
-        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

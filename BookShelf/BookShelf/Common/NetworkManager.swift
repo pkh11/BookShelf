@@ -15,8 +15,8 @@ class NetworkManager {
     
     private init() { }
     
-    func getBookList(_ query: String, completion: @escaping (Searh?) -> Void) {
-        guard let url = URL(string: "\(api.SEARCH)/\(query)")  else { return }
+    func getBookList(_ query: String, _ page: String ,completion: @escaping (Searh?) -> Void) {
+        guard let url = URL(string: "\(api.SEARCH)/\(query)/\(page)")  else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         
